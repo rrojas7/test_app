@@ -1,0 +1,1604 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API UX MBBK Automatic Payment Setting V1",
+    "description" : "Permite gestionar la configuracion del pago automatico de servicios de recaudacion.",
+    "version" : "1.2.1"
+  },
+  "externalDocs" : {
+    "description" : "Para mas información de la UX Automatic Payment Setting V1",
+    "url" : "https://confluence.lima.bcp.com.pe/display/SRECPUB/11.+API+UX+MBBK+Automatic+Payment+Setting+V1"
+  },
+  "servers" : [ {
+    "url" : "/channel/mbbk/v1"
+  } ],
+  "tags" : [ {
+    "name" : "Automatic Payment Settings",
+    "description" : "Automatic Payment Settings Controller"
+  }, {
+    "name" : "Favorite",
+    "description" : "Favorite Controller"
+  } ],
+  "paths" : {
+    "/automatic-payment-settings" : {
+      "get" : {
+        "tags" : [ "Automatic Payment Settings" ],
+        "summary" : "Lista de pagos automaticos de un usuario.",
+        "description" : "\n### Acerca de la funcionalidad expuesta\n\nPermite obtener la lista de favoritos configurados en Pago Automatico de un cliente. No recibe un Request ya que obtiene los datos de consulta desde la sesi&oacute;n\n\n\n### Precondiciones para el consumo de esta versión de la API\n\n No aplica.\n\n### Data de Prueba.\n\n  No aplica.\n \n### Precondiciones para el consumo de esta versión de la API\n \n  No aplica.\n  \n### Usos válidos de Query Parameters\n\n  No aplica.\n  \n### Variantes válidas del Payload (Cuerpo del mensaje)\n\n  Response\n  \n    {\n      \"automaticPaymentSettings\": [\n        {\n          \"favorite\": {\n            \"favoriteId\": \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\"\n          },\n          \"status\": {\n            \"code\": \"A\"\n          }\n        },\n        {\n          \"favorite\": {\n            \"favoriteId\": \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\"\n          },\n          \"status\": {\n            \"code\": \"I\"\n          }\n        }\n      ]\n    }\n\n\n### Lista de Valores usadas en esta versión de la API\n  \n  | Atributo | Valores | Descripcion |\n  |----------|---------|-------------|\n  |status.code|A,I  | configuracion de pago automatico Activo e Inactivo|\n    \n### Códigos de error usados en esta versión de la API\n\n\n  | Codigo | HTTP Status | Descripcion |\n  |--------|-------------|-------------|\n  | TL0003 | 400 | Los datos proporcionados no son válidos|\n  | TL0002 | 401 | No esta autorizado correctamente para ejecutar esta operaci&oacute;n.|\n  | TL0004 | 409 | Autenticaci&oacute;n de cliente incorrecta|\n  | TL0010 | 404 | No se encontró el recurso solicitado en la búsqueda|\n  | TL9999 | 500 | Ocurrió un error inesperado. Por favor contactarse con Soporte T&eacute;cnico|\n  | TL0009 | 503 | El servidor no está listo para manejar la petición. Por favor contactarse con Soporte T&eacute;cnico. |\n",
+        "operationId" : "listAutomaticPaymentSettings",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Token de Authorización",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "Bearer 363536363jjxnj63633611"
+          }
+        }, {
+          "name" : "Request-ID",
+          "in" : "header",
+          "description" : "Este campo es un valor estandar ya existente y sera usado como identificador.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "type" : "string",
+            "example" : "550e8400-e29b-41d4-a716-446655440000"
+          }
+        }, {
+          "name" : "request-date",
+          "in" : "header",
+          "description" : "Fecha de la petición",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 29,
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{4}([a-z]|[A-Z]|\\d)?$",
+            "type" : "string",
+            "example" : "2020-10-09T14:02:03.987-0700"
+          }
+        }, {
+          "name" : "app-code",
+          "in" : "header",
+          "description" : "Codigo de la aplicacion que invoca el servicio. Se debe usar el codigo de 2 caracteres que tienen asignada las aplicaciones, puede ser el canal.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2,
+            "minLength" : 2,
+            "pattern" : "^[0-9A-Z]*$",
+            "type" : "string",
+            "example" : "P0"
+          }
+        }, {
+          "name" : "caller-name",
+          "in" : "header",
+          "description" : "Nombre de la API que realiza la invocacion al servicio.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 100,
+            "minLength" : 5,
+            "pattern" : "^[0-9a-zA-Z.-]*$",
+            "type" : "string",
+            "example" : "atlas-cross-services-loans-deposits-loan-loans-v2"
+          }
+        }, {
+          "name" : "session-UID",
+          "in" : "header",
+          "description" : "Identificador de sesion de enrolamiento (Ej.94844529-eaf3-4457-8ab0-4cb9c3b65528)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 200,
+            "type" : "string",
+            "example" : "f61d4fae-3dec-11d0-a765-00a0c11e6bf7"
+          }
+        }, {
+          "name" : "orig-device-reference",
+          "in" : "header",
+          "description" : "Referencia adicional para identificar dispositivo.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 40,
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Lista de pagos autom&aacute;ticos del cliente.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AutomaticPaymentSettingsResponse"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AutomaticPaymentSettingsResponse"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "No se obtuvo informaci&oacute;n con los datos ingresados."
+          },
+          "400" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No esta autorizado correctamente para ejecutar esta operaci&oacute;n.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Autenticaci&oacute;n de cliente incorrecta",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error al realizar la b&uacute;squeda de datos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "503" : {
+            "description" : "El servidor no está listo para manejar la petición",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          }
+        },
+        "x-atlas-header" : {
+          "$ref" : "#/components/schemas/AutomaticPaymentSettingsHeaders"
+        }
+      }
+    },
+    "/automatic-payment-settings/favorites/search" : {
+      "post" : {
+        "tags" : [ "Favorite" ],
+        "summary" : "Lista de favoritos que pueden ser afiliados al pago automatico.",
+        "description" : "\n### Acerca de la funcionalidad expuesta\nPermite obtener la lista de favoritos de un cliente que pueden ser configurados como pagos automaticos. Se admiten pagos de tipo Validacion Completa. Se excluyen los favoritos de pagos a cuentas.\n### Precondiciones para el consumo de esta versión de la API\n\n No aplica.\n\n### Data de Prueba.\n\n No aplica.\n  \n### Usos válidos de Query Parameters\n\n  No aplica.\n  \n### Variantes válidas del Payload (Cuerpo del mensaje)\n\n  Consulta de favoritos de un cliente que pueden ser configurados como pagos automaticos.\n  \n  Request\n  \n    {\n      \"favorites\": [\n        {\n          \"favoriteId\": \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\"\n        },\n        {\n          \"favoriteId\": \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\"\n        }\n      ]\n    }\n  \n  \n  Response\n\n    {\n      \"favorites\": [\n        {\n          \"favoriteId\": \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\",\n          \"displayName\": \"Telefono Papa\",\n          \"operationInformation\": {\n            \"type\": {\n              \"code\": \"705\",\n              \"description\": \"PAGO DE SERVICIOS\"\n            }\n          }\n        },\n        {\n          \"favoriteId\": \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\",\n          \"displayName\": \"Telefono hijo\",\n          \"operationInformation\": {\n            \"type\": {\n              \"code\": \"705\",\n              \"description\": \"PAGO DE SERVICIOS\"\n            }\n          }\n        }\n      ]\n    }\n\n### Lista de Valores usadas en esta versión de la API\n  \n  A continuación se listan aquellos campos que tienen mas de un valor posible.\n  \n  | Atributo | Valores | Descripcion |\n  |----------|---------|-------------|\n  |favorite.operationInformation.code| 705 |Por el momento solo pagos tipo Validacion Completa|\n  |favorite.operationInformation.descripcion| PAGO DE SERVICIOS |Por el momento solo pagos tipo Validacion Completa|\n    \n### Códigos de error usados en esta versión de la API\n\n  | Codigo | HTTP Status | Descripcion |\n  |--------|-------------|-------------|\n  | TL0003 | 400 | Los datos proporcionados no son válidos                                  |\n  | TL0002 | 401 | No esta autorizado correctamente para ejecutar esta operaci&oacute;n.|\n  | TL0010 | 404 | No se encontró el recurso solicitado en la búsqueda |\n  | TL0004 | 409 | Autenticaci&oacute;n de cliente incorrecta|\n  | TL9999 | 500 | Ocurrió un error inesperado. Por favor contactarse con Soporte T&eacute;cnico   |\n  | TL0009 | 503 | El servidor no está listo para manejar la petición. Por favor contactarse con Soporte T&eacute;cnico. |\n",
+        "operationId" : "searchFavorites",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Token de Authorización",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "Bearer 363536363jjxnj63633611"
+          }
+        }, {
+          "name" : "Request-ID",
+          "in" : "header",
+          "description" : "Este campo es un valor estandar ya existente y sera usado como identificador.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "type" : "string",
+            "example" : "550e8400-e29b-41d4-a716-446655440000"
+          }
+        }, {
+          "name" : "request-date",
+          "in" : "header",
+          "description" : "Fecha de la petición",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 29,
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{4}([a-z]|[A-Z]|\\d)?$",
+            "type" : "string",
+            "example" : "2020-10-09T14:02:03.987-0700"
+          }
+        }, {
+          "name" : "app-code",
+          "in" : "header",
+          "description" : "Codigo de la aplicacion que invoca el servicio. Se debe usar el codigo de 2 caracteres que tienen asignada las aplicaciones, puede ser el canal.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2,
+            "minLength" : 2,
+            "pattern" : "^[0-9A-Z]*$",
+            "type" : "string",
+            "example" : "P0"
+          }
+        }, {
+          "name" : "caller-name",
+          "in" : "header",
+          "description" : "Nombre de la API que realiza la invocacion al servicio.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 100,
+            "minLength" : 5,
+            "pattern" : "^[0-9a-zA-Z.-]*$",
+            "type" : "string",
+            "example" : "atlas-cross-services-loans-deposits-loan-loans-v2"
+          }
+        }, {
+          "name" : "session-UID",
+          "in" : "header",
+          "description" : "Identificador de sesion de enrolamiento (Ej.94844529-eaf3-4457-8ab0-4cb9c3b65528)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 200,
+            "type" : "string",
+            "example" : "f61d4fae-3dec-11d0-a765-00a0c11e6bf7"
+          }
+        }, {
+          "name" : "orig-device-reference",
+          "in" : "header",
+          "description" : "Referencia adicional para identificar dispositivo.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 40,
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Lista de favoritos para ser filtrados",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FavoritesRequest"
+              }
+            },
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FavoritesRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Lista de favoritos del cliente que pueden ser configurados como pagos autom&aacute;ticos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FavoritesResponse"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FavoritesResponse"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "No se obtuvo informaci&oacute;n con los datos ingresados."
+          },
+          "400" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No esta autorizado correctamente para ejecutar esta operaci&oacute;n.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Autenticaci&oacute;n de cliente incorrecta",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error al realizar la b&uacute;squeda de datos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "503" : {
+            "description" : "El servidor no está listo para manejar la petición",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          }
+        },
+        "x-atlas-header" : {
+          "$ref" : "#/components/schemas/AutomaticPaymentSettingsPostHeaders"
+        }
+      }
+    },
+    "/automatic-payment-settings/verify" : {
+      "post" : {
+        "tags" : [ "Automatic Payment Settings" ],
+        "summary" : "Verifica si un servicio aplica para pago automatico.",
+        "description" : "\n### Acerca de la funcionalidad expuesta\nEste endpoint permite validar si el servicio de un favorito se encuentra habilitado para realizar pagos automaticos y devuelve la configuracion si caso se ha guardado anteriormente.\n### Precondiciones para el consumo de esta versión de la API\n\n No aplica.\n\n### Data de Prueba.\nCaso 1: Verify desde Favoritos\n\n  Request\n\n  ```json\n      favorite : {\n        favoriteId : \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\"\n      }\n  ```\n\n\n  Response\n\n  ```json\n      isAutoPayment: true,\n      providedService: {\n        providedServiceId: \"1000\",\n        serviceProvider: {\n          serviceProviderId: \"02090914\"\n        }\n      },\n      consumer: {\n        value: \"00001364\"\n      },\n      paymentConfiguration: {\n        configurationId: \"1001\",\n        productInformation: {\n          productNumber: \"19100109502007\",\n          formattedProductNumber: \"191-00109502-0-07\",\n          availableAmount: 1222.025,\n          familyCode: \"004\",\n          currencyCode: \"PEN\",\n          productCode: \"016\"\n        },\n        status: {\n          code: \"A\"\n        },\n        maximumAmount: \"200.00\"\n      }\n  ```\n\nCaso 2: Verify desde Operaciones\n\n  Request\n \n  ```json\n      favorite : {\n        favoriteId : \"7dd5f581-c96d-4996-bdec-b62d92fb6a36\"\n      },\n      providedService\" : {\n        crepServiceId : \"9986\"\n      }\n  ```\n \n  Response\n  \n  ```json\n      isAutoPayment: true,\n      providedService: {\n        providedServiceId: \"dcc8c2eb-b8a9-4059-9940-d3746d33278c\",\n        serviceProvider: {\n          serviceProviderId: \"02090914\"\n        }\n      },\n      consumer: {\n        value: \"00001364\"\n      },\n      paymentConfiguration: {\n        configurationId: \"1001\"\n      }\n  ```\n    \n### Precondiciones para el consumo de esta versión de la API\n \n  No aplica.\n  \n### Usos válidos de Query Parameters\n\n  No aplica.\n  \n### Variantes válidas del Payload (Cuerpo del mensaje)\n\n  No aplica.\n\n### Lista de Valores usadas en esta versión de la API\n  \n  No Aplica\n    \n### Códigos de error usados en esta versión de la API\n\n\n  | Codigo | HTTP Status | Descripcion |\n  |--------|-------------|-------------|\n  | TL0003 | 400 | Los datos proporcionados no son válidos                                  |\n  | TL0005 | 500 | Ocurrió un error en la comunicación con el Backend                       |\n  | TL0007 | 500 | Ocurrió un error en el Backend                                           |\n  | TL0010 | 404 | No se encontró el recurso solicitado en la búsqueda |\n  | TL9999 | 500 | Ocurrió un error inesperado. Por favor contactarse con Soporte T&eacute;cnico   |\n",
+        "operationId" : "autoPaymentSettingVerifyUsingPost",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Token de Authorización",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "Bearer 363536363jjxnj63633611"
+          }
+        }, {
+          "name" : "Request-ID",
+          "in" : "header",
+          "description" : "Este campo es un valor estandar ya existente y sera usado como identificador.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "type" : "string",
+            "example" : "550e8400-e29b-41d4-a716-446655440000"
+          }
+        }, {
+          "name" : "request-date",
+          "in" : "header",
+          "description" : "Fecha de la petición",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 29,
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{4}([a-z]|[A-Z]|\\d)?$",
+            "type" : "string",
+            "example" : "2020-10-09T14:02:03.987-0700"
+          }
+        }, {
+          "name" : "app-code",
+          "in" : "header",
+          "description" : "Codigo de la aplicacion que invoca el servicio. Se debe usar el codigo de 2 caracteres que tienen asignada las aplicaciones, puede ser el canal.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2,
+            "minLength" : 2,
+            "pattern" : "^[0-9A-Z]*$",
+            "type" : "string",
+            "example" : "P0"
+          }
+        }, {
+          "name" : "caller-name",
+          "in" : "header",
+          "description" : "Nombre de la API que realiza la invocacion al servicio.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 100,
+            "minLength" : 5,
+            "pattern" : "^[0-9a-zA-Z.-]*$",
+            "type" : "string",
+            "example" : "atlas-cross-services-loans-deposits-loan-loans-v2"
+          }
+        }, {
+          "name" : "session-UID",
+          "in" : "header",
+          "description" : "Identificador de sesion de enrolamiento (Ej.94844529-eaf3-4457-8ab0-4cb9c3b65528)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 200,
+            "type" : "string",
+            "example" : "f61d4fae-3dec-11d0-a765-00a0c11e6bf7"
+          }
+        }, {
+          "name" : "orig-device-reference",
+          "in" : "header",
+          "description" : "Referencia adicional para identificar dispositivo.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 40,
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Entrada para consulta del servicio",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentSettingVerifyRequest"
+              }
+            },
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentSettingVerifyRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Empresa esta habilitada para pargo.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentSettingVerifyResponse"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentSettingVerifyResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error al realizar la b&uacute;squeda de datos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          }
+        },
+        "x-atlas-header" : {
+          "$ref" : "#/components/schemas/PaymentSettingVerifyHeaders"
+        }
+      }
+    },
+    "/automatic-payment-settings/favorite" : {
+      "post" : {
+        "tags" : [ "Favorite" ],
+        "summary" : "Guarda los datos de configuracion de pago automatico de un favortio.",
+        "description" : "\n### Acerca de la funcionalidad expuesta\nEste endpoint permite almacenar los datos de configuracion de pago automatico para el pago de servicios.\n### Precondiciones para el consumo de esta versión de la API\n\n No aplica.\n\n### Data de Prueba.\nResponse-Desarrollo\n \n ```json\n      No aplica\n ```\n    \n### Precondiciones para el consumo de esta versión de la API\n \n  No aplica.\n  \n### Usos válidos de Query Parameters\n\n  No aplica.\n  \n### Variantes válidas del Payload (Cuerpo del mensaje)\n\n  No aplica.\n\n### Lista de Valores usadas en esta versión de la API\n  \n  No Aplica\n    \n### Códigos de error usados en esta versión de la API\n\n\n  | Codigo | HTTP Status | Descripcion |\n  |--------|-------------|-------------|\n  | TL0003 | 400 | Los datos proporcionados no son válidos                                  |\n  | TL0005 | 500 | Ocurrió un error en la comunicación con el Backend                       |\n  | TL0007 | 500 | Ocurrió un error en el Backend                                           |\n  | TL0010 | 404 | No se encontró el recurso solicitado en la búsqueda |\n  | TL9999 | 500 | Ocurrió un error inesperado. Por favor contactarse con Soporte T&eacute;cnico   |\n",
+        "operationId" : "savePaymentSettingUsingPost",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Token de Authorización",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "Bearer 363536363jjxnj63633611"
+          }
+        }, {
+          "name" : "Request-ID",
+          "in" : "header",
+          "description" : "Este campo es un valor estandar ya existente y sera usado como identificador.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "type" : "string",
+            "example" : "550e8400-e29b-41d4-a716-446655440000"
+          }
+        }, {
+          "name" : "request-date",
+          "in" : "header",
+          "description" : "Fecha de la petición",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 29,
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{4}([a-z]|[A-Z]|\\d)?$",
+            "type" : "string",
+            "example" : "2020-10-09T14:02:03.987-0700"
+          }
+        }, {
+          "name" : "app-code",
+          "in" : "header",
+          "description" : "Codigo de la aplicacion que invoca el servicio. Se debe usar el codigo de 2 caracteres que tienen asignada las aplicaciones, puede ser el canal.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2,
+            "minLength" : 2,
+            "pattern" : "^[0-9A-Z]*$",
+            "type" : "string",
+            "example" : "P0"
+          }
+        }, {
+          "name" : "caller-name",
+          "in" : "header",
+          "description" : "Nombre de la API que realiza la invocacion al servicio.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 100,
+            "minLength" : 5,
+            "pattern" : "^[0-9a-zA-Z.-]*$",
+            "type" : "string",
+            "example" : "atlas-cross-services-loans-deposits-loan-loans-v2"
+          }
+        }, {
+          "name" : "session-UID",
+          "in" : "header",
+          "description" : "Identificador de sesion de enrolamiento (Ej.94844529-eaf3-4457-8ab0-4cb9c3b65528)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 200,
+            "type" : "string",
+            "example" : "f61d4fae-3dec-11d0-a765-00a0c11e6bf7"
+          }
+        }, {
+          "name" : "orig-device-reference",
+          "in" : "header",
+          "description" : "Referencia adicional para identificar dispositivo.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 40,
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Almacena la configuracion de pago automatico",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentSettingSaveRequest"
+              }
+            },
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentSettingSaveRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Proceso Satisfactorio."
+          },
+          "202" : {
+            "description" : "Proceso Satisfactorio."
+          },
+          "400" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error al realizar la b&uacute;squeda de datos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          }
+        },
+        "x-atlas-header" : {
+          "$ref" : "#/components/schemas/PaymentSettingSaveHeaders"
+        }
+      }
+    },
+    "/automatic-payment-settings/favorite/{configurationId}" : {
+      "patch" : {
+        "tags" : [ "Favorite" ],
+        "summary" : "Actualiza los datos de configuracion de pago automatico de un favorito.",
+        "description" : "\n### Acerca de la funcionalidad expuesta\nEste endpoint permite actualizar los datos de configuración pago automático para el pago de servicios.\n### Precondiciones para el consumo de esta versión de la API\n\n No aplica.\n\n### Data de Prueba.\nResponse-Desarrollo\n \n ```json\n      No aplica\n ```\n    \n### Precondiciones para el consumo de esta versión de la API\n \n  No aplica.\n  \n### Usos válidos de Query Parameters\n\n  No aplica.\n  \n### Variantes válidas del Payload (Cuerpo del mensaje)\n\n  No aplica.\n\n### Lista de Valores usadas en esta versión de la API\n  \n  No Aplica\n    \n### Códigos de error usados en esta versión de la API\n\n\n  | Codigo | HTTP Status | Descripcion |\n  |--------|-------------|-------------|\n  | TL0003 | 400 | Los datos proporcionados no son válidos                                  |\n  | TL0005 | 500 | Ocurrió un error en la comunicación con el Backend                       |\n  | TL0007 | 500 | Ocurrió un error en el Backend                                           |\n  | TL0010 | 404 | No se encontró el recurso solicitado en la búsqueda |\n  | TL9999 | 500 | Ocurrió un error inesperado. Por favor contactarse con Soporte T&eacute;cnico   |\n",
+        "operationId" : "updatePaymentSettingUsingPatch",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Token de Authorización",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "Bearer 363536363jjxnj63633611"
+          }
+        }, {
+          "name" : "Request-ID",
+          "in" : "header",
+          "description" : "Este campo es un valor estandar ya existente y sera usado como identificador.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 36,
+            "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "type" : "string",
+            "example" : "550e8400-e29b-41d4-a716-446655440000"
+          }
+        }, {
+          "name" : "request-date",
+          "in" : "header",
+          "description" : "Fecha de la petición",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 29,
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{4}([a-z]|[A-Z]|\\d)?$",
+            "type" : "string",
+            "example" : "2020-10-09T14:02:03.987-0700"
+          }
+        }, {
+          "name" : "app-code",
+          "in" : "header",
+          "description" : "Codigo de la aplicacion que invoca el servicio. Se debe usar el codigo de 2 caracteres que tienen asignada las aplicaciones, puede ser el canal.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2,
+            "minLength" : 2,
+            "pattern" : "^[0-9A-Z]*$",
+            "type" : "string",
+            "example" : "P0"
+          }
+        }, {
+          "name" : "caller-name",
+          "in" : "header",
+          "description" : "Nombre de la API que realiza la invocacion al servicio.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 100,
+            "minLength" : 5,
+            "pattern" : "^[0-9a-zA-Z.-]*$",
+            "type" : "string",
+            "example" : "atlas-cross-services-loans-deposits-loan-loans-v2"
+          }
+        }, {
+          "name" : "session-UID",
+          "in" : "header",
+          "description" : "Identificador de sesion de enrolamiento (Ej.94844529-eaf3-4457-8ab0-4cb9c3b65528)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 200,
+            "type" : "string",
+            "example" : "f61d4fae-3dec-11d0-a765-00a0c11e6bf7"
+          }
+        }, {
+          "name" : "orig-device-reference",
+          "in" : "header",
+          "description" : "Referencia adicional para identificar dispositivo.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 40,
+            "type" : "string"
+          }
+        }, {
+          "name" : "configurationId",
+          "in" : "path",
+          "description" : "Identificador único de la configuración de pago automatico",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Actualiza los datos de configuracion pago automatico para el pago de servicios.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentSettingUpdateRequest"
+              }
+            },
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentSettingUpdateRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Proceso Satisfactorio."
+          },
+          "400" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "El cliente envi&oacute; datos incorrectos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error al realizar la b&uacute;squeda de datos.",
+            "content" : {
+              "application/stream+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              },
+              "application/stream+json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiException"
+                }
+              }
+            }
+          }
+        },
+        "x-atlas-header" : {
+          "$ref" : "#/components/schemas/PaymentSettingUpdateHeaders"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AutomaticPaymentSettingsHeaders" : {
+        "title" : "AutomaticPaymentSettingsHeaders",
+        "type" : "object"
+      },
+      "AutomaticPaymentSettingsResponse" : {
+        "title" : "AutomaticPaymentSettingsResponse",
+        "type" : "object",
+        "properties" : {
+          "automaticPaymentSettings" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AutomaticPaymentSetting"
+            }
+          }
+        }
+      },
+      "AutomaticPaymentSettingsPostHeaders" : {
+        "title" : "AutomaticPaymentSettingsPostHeaders",
+        "type" : "object"
+      },
+      "FavoritesRequest" : {
+        "title" : "FavoritesRequest",
+        "type" : "object",
+        "properties" : {
+          "favorites" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Favorite"
+            }
+          }
+        }
+      },
+      "FavoritesResponse" : {
+        "title" : "FavoritesResponse",
+        "type" : "object",
+        "properties" : {
+          "favorites" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentSettingsFavorite"
+            }
+          }
+        }
+      },
+      "PaymentSettingVerifyHeaders" : {
+        "title" : "PaymentSettingVerifyHeaders'",
+        "type" : "object"
+      },
+      "PaymentSettingVerifyRequest" : {
+        "title" : "PaymentSettingVerifyRequest",
+        "required" : [ "favorite" ],
+        "type" : "object",
+        "properties" : {
+          "favorite" : {
+            "$ref" : "#/components/schemas/Favorite"
+          },
+          "providedService" : {
+            "$ref" : "#/components/schemas/ProvidedServiceOperations"
+          }
+        }
+      },
+      "PaymentSettingVerifyResponse" : {
+        "title" : "PaymentSettingVerifyResponse",
+        "type" : "object",
+        "properties" : {
+          "isAutoPayment" : {
+            "type" : "boolean",
+            "description" : "Flag de validacion de pago automatico para el servicio",
+            "example" : true
+          },
+          "providedService" : {
+            "$ref" : "#/components/schemas/ProvidedService"
+          },
+          "consumer" : {
+            "$ref" : "#/components/schemas/Consumer"
+          },
+          "paymentConfiguration" : {
+            "$ref" : "#/components/schemas/paymentConfiguration"
+          }
+        }
+      },
+      "PaymentSettingSaveHeaders" : {
+        "title" : "PaymentSettingSaveHeaders",
+        "type" : "object"
+      },
+      "PaymentSettingSaveRequest" : {
+        "title" : "PaymentSettingSaveRequest",
+        "required" : [ "authorization", "consumer", "customer", "favorite", "providedService" ],
+        "type" : "object",
+        "properties" : {
+          "authorization" : {
+            "$ref" : "#/components/schemas/Authorization"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/PaymentSettingSaveRequest_data"
+          }
+        }
+      },
+      "PaymentSettingUpdateHeaders" : {
+        "title" : "PaymentSettingUpdateHeaders",
+        "type" : "object"
+      },
+      "PaymentSettingUpdateRequest" : {
+        "title" : "PaymentSettingUpdateRequest",
+        "required" : [ "authorization", "customer", "favorite" ],
+        "type" : "object",
+        "properties" : {
+          "authorization" : {
+            "$ref" : "#/components/schemas/Authorization"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/PaymentSettingUpdateRequest_data"
+          }
+        }
+      },
+      "PaymentSettingsFavorite" : {
+        "type" : "object",
+        "properties" : {
+          "favoriteId" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-]*$",
+            "type" : "string",
+            "description" : "Define al identificador del favorito",
+            "example" : "7dd5f581-c96d-4996-bdec-b62d92fb6a36"
+          },
+          "displayName" : {
+            "maxLength" : 30,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Alias del favorito",
+            "example" : "Telefono Papa"
+          },
+          "operationInformation" : {
+            "$ref" : "#/components/schemas/operationInformation"
+          }
+        }
+      },
+      "AutomaticPaymentSetting" : {
+        "title" : "AutomaticPaymentSetting",
+        "required" : [ "favorite", "status" ],
+        "type" : "object",
+        "properties" : {
+          "favorite" : {
+            "$ref" : "#/components/schemas/Favorite"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/Status"
+          }
+        }
+      },
+      "ProductInformation" : {
+        "required" : [ "availableAmount", "currencyCode", "familyCode", "formattedProductNumber", "productCode", "productNumber" ],
+        "type" : "object",
+        "properties" : {
+          "productNumber" : {
+            "type" : "string",
+            "description" : "Identificador (Nro. Cuenta, Nro. Tarjeta, etc) del producto a realizar el cargo",
+            "example" : "19100109502007"
+          },
+          "formattedProductNumber" : {
+            "type" : "string",
+            "description" : "Identificador (Nro. Cuenta, Nro. Tarjeta, etc) en formato comercial",
+            "example" : "191-00109502-0-07"
+          },
+          "availableAmount" : {
+            "type" : "number",
+            "description" : "Saldo disponible del cliente",
+            "example" : 1222.2
+          },
+          "familyCode" : {
+            "type" : "string",
+            "description" : "Código de familia BSC de cargo",
+            "example" : "004"
+          },
+          "currencyCode" : {
+            "type" : "string",
+            "description" : "Define el codigo de la moneda a usar apartir del estandar ISO 4217",
+            "example" : "PEN"
+          },
+          "productCode" : {
+            "type" : "string",
+            "description" : "Código de producto BSC de cargo",
+            "example" : "016"
+          }
+        }
+      },
+      "Customer" : {
+        "type" : "object",
+        "properties" : {
+          "chargeProduct" : {
+            "$ref" : "#/components/schemas/ChargeProduct"
+          }
+        }
+      },
+      "ChargeProduct" : {
+        "required" : [ "currency", "productNumber" ],
+        "type" : "object",
+        "properties" : {
+          "productNumber" : {
+            "type" : "string",
+            "description" : "Identificador de un Nro. Cuenta o Nro. Tarjeta",
+            "example" : "0123456789123456"
+          },
+          "productDetail" : {
+            "$ref" : "#/components/schemas/ProductDetail"
+          }
+        }
+      },
+      "ProductDetail" : {
+        "title" : "ProductDetail",
+        "type" : "object",
+        "properties" : {
+          "family" : {
+            "$ref" : "#/components/schemas/Family"
+          },
+          "product" : {
+            "$ref" : "#/components/schemas/Product"
+          },
+          "currency" : {
+            "$ref" : "#/components/schemas/Currency"
+          }
+        },
+        "description" : "Datos del detalle del producto."
+      },
+      "Family" : {
+        "title" : "Family",
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 3,
+            "minLength" : 3,
+            "pattern" : "^\\d+$",
+            "type" : "string",
+            "description" : "Código de familia BSC de cargo.",
+            "example" : "004"
+          }
+        },
+        "description" : "Datos de la familia."
+      },
+      "Product" : {
+        "title" : "Product",
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 3,
+            "minLength" : 3,
+            "pattern" : "^\\d+$",
+            "type" : "string",
+            "description" : "Código de producto BSC de cargo.",
+            "example" : "016"
+          }
+        },
+        "description" : "Datos del producto."
+      },
+      "Favorite" : {
+        "type" : "object",
+        "properties" : {
+          "favoriteId" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-]*$",
+            "type" : "string",
+            "description" : "Define al identificador del favorito",
+            "example" : "7dd5f581-c96d-4996-bdec-b62d92fb6a36"
+          }
+        }
+      },
+      "TypeOperationResponse" : {
+        "title" : "TypeResponse",
+        "required" : [ "code", "description" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 3,
+            "minLength" : 0,
+            "type" : "string",
+            "description" : "Código del tipo de la operación",
+            "example" : "705"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Descripción del tipo de la operación",
+            "example" : "PAGO DE SERVICIOS"
+          }
+        }
+      },
+      "Consumer" : {
+        "title" : "Consumer",
+        "required" : [ "value" ],
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "maxLength" : 14,
+            "type" : "string",
+            "description" : "Código que identifica a un cliente en una empresa prestadora de servicios (suministro, celular, etc.)",
+            "example" : "00001364"
+          }
+        }
+      },
+      "ProvidedService" : {
+        "title" : "ProvidedService",
+        "required" : [ "providedServiceId", "serviceProvider" ],
+        "type" : "object",
+        "properties" : {
+          "providedServiceId" : {
+            "maxLength" : 36,
+            "minLength" : 36,
+            "pattern" : "^[A-z0-9-]{36,36}$",
+            "type" : "string",
+            "description" : "Código identificador del servicio.",
+            "example" : "1000"
+          },
+          "serviceProvider" : {
+            "$ref" : "#/components/schemas/ServiceProvider"
+          }
+        }
+      },
+      "ServiceProvider" : {
+        "title" : "ServiceProvider",
+        "type" : "object",
+        "properties" : {
+          "serviceProviderId" : {
+            "maxLength" : 15,
+            "minLength" : 1,
+            "pattern" : "^\\w{1,15}$",
+            "type" : "string",
+            "description" : "CompanyCic de la empresa.",
+            "example" : "02090914"
+          }
+        }
+      },
+      "Device" : {
+        "title" : "Device",
+        "type" : "object",
+        "properties" : {
+          "operatingSystem" : {
+            "$ref" : "#/components/schemas/OperatingSystem"
+          },
+          "geolocation" : {
+            "$ref" : "#/components/schemas/Geolocation"
+          }
+        },
+        "description" : "Define la informacion del dispositivo usado al realizar la configuracion"
+      },
+      "Geolocation" : {
+        "required" : [ "latitude", "longitude" ],
+        "type" : "object",
+        "properties" : {
+          "latitude" : {
+            "type" : "string",
+            "description" : "Latitud del dispositivo al realizar la llamada al servicio",
+            "example" : "-11.135"
+          },
+          "longitude" : {
+            "type" : "string",
+            "description" : "Longitud del dispositivo al realizar la llamada al servicio",
+            "example" : "-77.194"
+          }
+        },
+        "description" : "Contiene los datos de Geolocalización"
+      },
+      "OperatingSystem" : {
+        "title" : "OperatingSystem",
+        "required" : [ "name", "version" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "pattern" : "[a-zA-Z0-9\\_\\.\\- ]{2,30}$",
+            "type" : "string",
+            "description" : "Nombre del sistema operativo.",
+            "example" : "Android"
+          },
+          "version" : {
+            "maxLength" : 12,
+            "minLength" : 3,
+            "pattern" : "(^(\\d+\\.)(\\d+\\.)(\\d+$))|(^(\\d+\\.)(\\d+$))|(^\\d{1,2}?$)",
+            "type" : "string",
+            "description" : "Versión del sistema operativo",
+            "example" : "1.0.0"
+          }
+        },
+        "description" : "Sistema operativo del dispositivo."
+      },
+      "Currency" : {
+        "title" : "Currency",
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Define el codigo de la moneda a usar apartir del estandar ISO 4217:\n * `PEN` - Soles\n * `USD` - Dólares\n",
+            "example" : "PEN",
+            "enum" : [ "PEN", "USD" ]
+          }
+        }
+      },
+      "Status" : {
+        "title" : "Status",
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 1,
+            "minLength" : 1,
+            "pattern" : "^([A|I])$",
+            "type" : "string",
+            "description" : "Define el estado de la configuracion de pago automatico:\n * `A` - configuracion de pago automatico activo\n * `I` - configuracion de pago automatico inactivo\n",
+            "example" : "A",
+            "enum" : [ "A", "I" ]
+          }
+        }
+      },
+      "ProvidedServiceOperations" : {
+        "title" : "ProvidedServiceOperations",
+        "required" : [ "serviceCrepID" ],
+        "type" : "object",
+        "properties" : {
+          "crepServiceId" : {
+            "maxLength" : 11,
+            "minLength" : 1,
+            "pattern" : "^[0-9]{1,11}$",
+            "type" : "string",
+            "description" : "Código identificador del servicio.",
+            "example" : "1000"
+          }
+        }
+      },
+      "Authorization" : {
+        "required" : [ "userSignatureMode" ],
+        "type" : "object",
+        "properties" : {
+          "userSignatureMode" : {
+            "$ref" : "#/components/schemas/UserSignatureMode"
+          },
+          "keyboard" : {
+            "$ref" : "#/components/schemas/KeyBoard"
+          },
+          "tokenSynchronizationId" : {
+            "type" : "string",
+            "description" : "caso token requiera sincronizacion",
+            "example" : "6549843241"
+          }
+        }
+      },
+      "UserSignatureMode" : {
+        "type" : "object",
+        "properties" : {
+          "signatureModeId" : {
+            "type" : "string",
+            "description" : "Id modo de firma",
+            "example" : "1"
+          }
+        }
+      },
+      "KeyBoard" : {
+        "type" : "object",
+        "properties" : {
+          "seed" : {
+            "pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
+            "type" : "string",
+            "example" : "06e10677-3a04-4dab-b61a-5a9198c66001"
+          },
+          "keys" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Key"
+            }
+          }
+        }
+      },
+      "Key" : {
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
+            "type" : "string",
+            "example" : "06e10677-3a04-4dab-b61a-5a9198c66001"
+          }
+        }
+      },
+      "ApiException" : {
+        "title" : "ApiException",
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Codigo de error de Sistema",
+            "example" : "TL0001"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Descripcion del error de Sistema",
+            "example" : "Error al llamar al servicio"
+          },
+          "errorType" : {
+            "type" : "string",
+            "description" : "Tipo de Error de Sistema",
+            "example" : "TECHNICAL"
+          },
+          "exceptionDetails" : {
+            "type" : "array",
+            "description" : "Lista de detalles del error",
+            "items" : {
+              "$ref" : "#/components/schemas/ApiExceptionDetail"
+            }
+          },
+          "properties" : {
+            "type" : "object",
+            "properties" : { },
+            "description" : "Lista de propiedades especiales."
+          }
+        },
+        "description" : "Datos del error de sistema."
+      },
+      "ApiExceptionDetail" : {
+        "title" : "ApiExceptionDetail",
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Codigo de error del Detalle/Proveedor",
+            "example" : "MB0008"
+          },
+          "component" : {
+            "type" : "string",
+            "description" : "Nombre del componente de falla",
+            "example" : "MB.CardInqV2"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Descripcion del Detalle",
+            "example" : "Codigo invalido para el canal"
+          }
+        },
+        "description" : "Datos del error técnico."
+      },
+      "paymentConfiguration" : {
+        "type" : "object",
+        "properties" : {
+          "configurationId" : {
+            "type" : "string",
+            "description" : "Identificador de configuracion guardada",
+            "example" : "1001"
+          },
+          "productInformation" : {
+            "$ref" : "#/components/schemas/ProductInformation"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/Status"
+          },
+          "maximumAmount" : {
+            "maxLength" : 20,
+            "minLength" : 0,
+            "pattern" : "^(|^\\d+(\\.?\\d{0,4})?$)$",
+            "type" : "string",
+            "description" : "Define el monto maximo de la operación",
+            "example" : "200.00"
+          }
+        }
+      },
+      "PaymentSettingSaveRequest_data" : {
+        "type" : "object",
+        "properties" : {
+          "customer" : {
+            "$ref" : "#/components/schemas/Customer"
+          },
+          "favorite" : {
+            "$ref" : "#/components/schemas/Favorite"
+          },
+          "consumer" : {
+            "$ref" : "#/components/schemas/Consumer"
+          },
+          "providedService" : {
+            "$ref" : "#/components/schemas/ProvidedService"
+          },
+          "maximumAmount" : {
+            "maxLength" : 20,
+            "minLength" : 0,
+            "pattern" : "^(|^\\d+(\\.?\\d{0,4})?$)$",
+            "type" : "string",
+            "description" : "Define el monto maximo de la operación",
+            "example" : "200.00"
+          },
+          "device" : {
+            "$ref" : "#/components/schemas/Device"
+          }
+        }
+      },
+      "PaymentSettingUpdateRequest_data" : {
+        "type" : "object",
+        "properties" : {
+          "customer" : {
+            "$ref" : "#/components/schemas/Customer"
+          },
+          "favorite" : {
+            "$ref" : "#/components/schemas/Favorite"
+          },
+          "maximumAmount" : {
+            "maxLength" : 20,
+            "minLength" : 0,
+            "pattern" : "^(|^\\d+(\\.?\\d{0,4})?$)$",
+            "type" : "string",
+            "description" : "Define el monto maximo de la operación",
+            "example" : "200.00"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/Status"
+          },
+          "device" : {
+            "$ref" : "#/components/schemas/Device"
+          }
+        }
+      },
+      "operationInformation" : {
+        "required" : [ "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/TypeOperationResponse"
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "sessionUID" : {
+        "name" : "session-UID",
+        "in" : "header",
+        "description" : "Identificador de sesion de enrolamiento (Ej.94844529-eaf3-4457-8ab0-4cb9c3b65528)",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "maxLength" : 200,
+          "type" : "string",
+          "example" : "f61d4fae-3dec-11d0-a765-00a0c11e6bf7"
+        }
+      },
+      "origDeviceReference" : {
+        "name" : "orig-device-reference",
+        "in" : "header",
+        "description" : "Referencia adicional para identificar dispositivo.",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "maxLength" : 40,
+          "type" : "string"
+        }
+      },
+      "configurationId" : {
+        "name" : "configurationId",
+        "in" : "path",
+        "description" : "Identificador único de la configuración de pago automatico",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "maxLength" : 36,
+          "minLength" : 1,
+          "type" : "string"
+        }
+      }
+    }
+  },
+  "x-bcp-api-type" : "UX",
+  "x-bcp-api-id" : "mbbk-automatic-payment-setting"
+}
